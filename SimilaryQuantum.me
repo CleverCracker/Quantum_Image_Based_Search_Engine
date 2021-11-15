@@ -1,0 +1,31 @@
+# Search Engine
+
+### Load the StateVactor Image Data
+```python
+data = np.loadtxt('data.csv', delimiter=',', dtype=np.complex128)
+```
+
+### QuantumCircuit Initilization
+```python
+    targetQubit = QuantumRegister(1, 'target')
+    ref = QuantumRegister(11, 'ref')
+    original = QuantumRegister(11, 'original')
+    anc = QuantumRegister(1, 'anc')
+    c = ClassicalRegister(1)
+    job = []
+
+    numOfShots = 1024
+    IBMQ.load_account()
+    provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main')
+    backend = provider.get_backend('ibmq_qasm_simulator')
+```
+
+### Result of QuantumCircuit
+```python
+    count = job[i].result().get_counts()
+    counts.append(count)
+    print(count['0'] / 1024 * 100)
+    samilarty_per = count['0'] / 1024 * 100
+```
+
+Note: For more Detail see the Code...

@@ -1,0 +1,41 @@
+# Image in To StateVactor
+
+### Normilization of image
+
+```python
+import numpy as np
+from PIL import Image
+
+def image_normalization(imagePath, w=32, h=32):
+    # Convert Image into Black and White and Resize (w,h)
+    image = Image.open(imagePath).convert('LA').resize((w, h), Image.ANTIALIAS)
+    image = np.array([[image.getpixel((x, y))[0]
+                       for x in range(w)] for y in range(h)])
+
+    # 2-dimentional data convert to 1-dimentional array
+    image = image.flatten()
+    # change type
+    image = image.astype('float64')
+    # Normalization(0~pi/2)
+    image /= 255.0
+    generated_image = np.arcsin(image)
+
+    return generated_image
+``` 
+
+### image Encoding and Geting StateVactor:
+```python
+ qc = QuantumCircuit(ref, anc, c)
+    #Initilization of Qubit
+    qc.h([ref[i] for i in range(1, len(ref))])
+
+    # encode ref image
+    for i in range(len(img)):
+        if img[i] != 0:
+            FRQI.cqry(qc, 2 * img[i], format(i, '04b'), ref[0],
+                      anc[0], [ref[j] for j in range(1, len(ref))],4)
+
+    result = execute(qc, backend, shots=numOfShots).result()
+
+    statevector = result.get_statevector()
+```
